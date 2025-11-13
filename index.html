@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sensor Dashboard — Demo Mode</title>
+  <style>
+    body{
+      margin:0; padding:20px; 
+      background:#0f1724;
+      font-family:Arial;
+      color:#e8ecff;
+    }
+    h1{ text-align:center; margin-bottom:20px; }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:20px;
+    }
+    .card{
+      background:#141e33;
+      padding:18px;
+      border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.4);
+    }
+    .label{
+      color:#98a0b3;
+      font-size:14px;
+      margin-bottom:6px;
+    }
+    .value{
+      font-size:26px;
+      font-weight:bold;
+      margin-bottom:8px;
+    }
+    .sub{
+      font-size:12px;
+      color:#98a0b3;
+    }
+    .updated{
+      text-align:center;
+      margin-top:10px;
+      font-size:14px;
+      color:#98a0b3;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Sensor Dashboard (Random Demo Output)</h1>
+
+<div class="grid">
+  <div class="card">
+    <div class="label">Temperature (DHT11)</div>
+    <div class="value" id="temp">-- °C</div>
+    <div class="sub" id="tempStatus">—</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Humidity</div>
+    <div class="value" id="hum">-- %</div>
+    <div class="sub" id="humStatus">—</div>
+  </div>
+
+  <div class="card">
+    <div class="label">IR Sensor</div>
+    <div class="value" id="ir">--</div>
+    <div class="sub" id="irStatus">—</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Gas Sensor</div>
+    <div class="value" id="gas">--</div>
+    <div class="sub" id="gasStatus">—</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Moisture</div>
+    <div class="value" id="moist">-- %</div>
+    <div class="sub" id="moistStatus">—</div>
+  </div>
+</div>
+
+<div class="updated" id="updated">Waiting...</div>
+
+<script>
+function random(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// update values every 2 seconds
+function updateRandomValues(){
+  let temp = random(20, 40);
+  let hum = random(30, 90);
+  let ir = random(0, 1);
+  let gas = random(100, 900);
+  let moist = random(10, 100);
+
+  document.getElementById("temp").textContent = temp + " °C";
+  document.getElementById("hum").textContent = hum + " %";
+  document.getElementById("ir").textContent = ir === 1 ? "OBJECT" : "NONE";
+  document.getElementById("gas").textContent = gas;
+  document.getElementById("moist").textContent = moist + " %";
+
+  // Status text
+  document.getElementById("tempStatus").textContent = "Normal";
+  document.getElementById("humStatus").textContent = "Stable";
+  document.getElementById("irStatus").textContent = ir ? "Detected" : "Clear";
+  document.getElementById("gasStatus").textContent = (gas > 600) ? "HIGH" : "LOW";
+  document.getElementById("moistStatus").textContent = moist < 40 ? "Dry" : "Good";
+
+  document.getElementById("updated").textContent =
+    "Updated at: " + new Date().toLocaleTimeString();
+}
+
+setInterval(updateRandomValues, 2000);
+updateRandomValues(); // initial call
+</script>
+
+</body>
+</html>
